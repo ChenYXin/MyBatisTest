@@ -11,7 +11,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Junit 对SqlSessionFactory 进行单元测试
@@ -62,6 +64,40 @@ public class MyBatisTest {
             sqlSession = MyBatisUtils.openSession();
 //            Connection conn=sqlSession.getConnection();
             List<Goods> list = sqlSession.selectList("goods.selectAll");
+            for (Goods goods : list) {
+                System.out.println(goods.getTitle());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testSelectById() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.getTitle());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testSelectByPriceRange() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Map param = new HashMap();
+            param.put("min", 100);
+            param.put("max", 500);
+            param.put("limit", 10);
+            List<Goods> list = sqlSession.selectList("goods.selectByPriceRange", param);
             for (Goods goods : list) {
                 System.out.println(goods.getTitle());
             }
