@@ -219,4 +219,24 @@ public class MyBatisTest {
             MyBatisUtils.closeSession(sqlSession);
         }
     }
+
+    @Test
+    public void testDynamicSQL() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Map param = new HashMap();
+            param.put("categoryId", 44);
+            param.put("currentPrice", 500);
+            //查询条件
+            List<Goods> list = sqlSession.selectList("goods.dynamicSQL", param);
+            for (Goods goods : list) {
+                System.out.println(goods.getTitle() + ":" + goods.getSubTitle());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
 }
