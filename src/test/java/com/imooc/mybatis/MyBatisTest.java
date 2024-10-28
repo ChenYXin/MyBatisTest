@@ -1,5 +1,6 @@
 package com.imooc.mybatis;
 
+import com.imooc.mybatis.dto.GoodsDTO;
 import com.imooc.mybatis.entity.Goods;
 import com.imooc.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.io.Resources;
@@ -100,6 +101,22 @@ public class MyBatisTest {
             List<Goods> list = sqlSession.selectList("goods.selectByPriceRange", param);
             for (Goods goods : list) {
                 System.out.println(goods.getTitle());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testSelectGoodsDTO() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            List<GoodsDTO> list = sqlSession.selectList("goods.selectGoodsDTO");
+            for (GoodsDTO goodsDTO : list) {
+                System.out.println(goodsDTO.getGoods().getTitle());
             }
         } catch (Exception e) {
             throw e;

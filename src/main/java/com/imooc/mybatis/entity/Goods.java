@@ -4,7 +4,7 @@ public class Goods {
     private Integer goodsId;//商品编号
     private String title;//标题
     private String subTitle;//子标题
-    private Float originalPrice;//原始价格
+    private Float originalCost;//原始价格
     private Float currentPrice;//当前价格
     private Float discount;//折扣率
     private Integer isFreeDelivery;//是否包邮，1-包邮，0-不包邮
@@ -34,12 +34,12 @@ public class Goods {
         this.subTitle = subTitle;
     }
 
-    public Float getOriginalPrice() {
-        return originalPrice;
+    public Float getOriginalCost() {
+        return originalCost;
     }
 
-    public void setOriginalPrice(Float originalPrice) {
-        this.originalPrice = originalPrice;
+    public void setOriginalCost(Float originalCost) {
+        this.originalCost = originalCost;
     }
 
     public Float getCurrentPrice() {
