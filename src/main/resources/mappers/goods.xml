@@ -77,4 +77,22 @@
         insert into t_goods(title, sub_title, original_cost, current_price, discount, is_free_delivery, category_id)
         values (#{title}, #{subTitle}, #{originalCost}, #{currentPrice}, #{discount}, #{isFreeDelivery}, #{categoryId})
     </insert>
+
+    <update id="update" parameterType="com.imooc.mybatis.entity.Goods">
+        update t_goods
+        set title=#{title},
+            sub_title=#{subTitle},
+            original_cost=#{originalCost},
+            current_price=#{currentPrice},
+            discount=#{discount},
+            is_free_delivery=#{isFreeDelivery},
+            category_id=#{categoryId}
+        where goods_id = #{goodsId}
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete
+        from t_goods
+        where goods_id = #{goodsId}
+    </delete>
 </mapper>

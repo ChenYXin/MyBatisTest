@@ -141,9 +141,55 @@ public class MyBatisTest {
             //insert()方法返回值代表本次成功插入的记录总数
 //            int num = sqlSession.insert("goods.insert", goods);
             int num = sqlSession.insert("goods.insert2", goods);
+            // selectKey 标签时通用方案，适用于所有数据库，但编写麻烦
+            // userGeneratedKeys属性只支持“自增主键”数据库，使用简单,例如Oracle则必须使用selectKey
             sqlSession.commit();
             System.out.println(num);
             System.out.println(goods.getGoodsId());
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                sqlSession.rollback();
+            }
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Goods goods = sqlSession.selectOne("goods.selectById", 2676);
+            goods.setTitle("更新测试商品");
+//            goods.setSubTitle("测试子标题");
+//            goods.setOriginalCost(200f);
+//            goods.setCurrentPrice(100f);
+//            goods.setDiscount(0.5f);
+//            goods.setIsFreeDelivery(1);
+//            goods.setCategoryId(43);
+            int num = sqlSession.update("goods.update",goods);
+            System.out.println(num);
+            sqlSession.commit();
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                sqlSession.rollback();
+            }
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            int num = sqlSession.delete("goods.delete",2676);
+            System.out.println(num);
+            sqlSession.commit();
         } catch (Exception e) {
             if (sqlSession != null) {
                 sqlSession.rollback();
