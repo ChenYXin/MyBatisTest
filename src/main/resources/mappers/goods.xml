@@ -39,6 +39,7 @@
         <id property="goods.goodsId" column="goods_id"/>
         <!--设置非主键字段与属性映射-->
         <result property="goods.title" column="title"/>
+        <result property="goods.subTitle" column="sub_title"/>
         <result property="goods.originalCost" column="original_cost"/>
         <result property="goods.currentPrice" column="current_price"/>
         <result property="goods.discount" column="discount"/>
@@ -60,4 +61,12 @@
              t_category c
         where g.category_id = c.category_id
     </select>
+
+    <insert id="insert" parameterType="com.imooc.mybatis.entity.Goods">
+        insert into t_goods(title,sub_title,original_cost,current_price,discount,is_free_delivery,category_id)
+        values(#{title},#{subTitle},#{originalCost},#{currentPrice},#{discount},#{isFreeDelivery},#{categoryId})
+        <selectKey resultType="Integer" keyProperty="goodsId" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
 </mapper>

@@ -4,9 +4,9 @@ import com.imooc.mybatis.entity.Category;
 import com.imooc.mybatis.entity.Goods;
 //Data Transfer Object -- 数据传输对象
 public class GoodsDTO {
-    private Goods goods = new Goods();
+    private Goods goods;// = new Goods();
 //    private String categoryName;
-    private Category category = new Category();
+    private Category category;// = new Category();
     private String test;
 
     public Goods getGoods() {
