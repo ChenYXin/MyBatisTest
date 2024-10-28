@@ -169,7 +169,7 @@ public class MyBatisTest {
 //            goods.setDiscount(0.5f);
 //            goods.setIsFreeDelivery(1);
 //            goods.setCategoryId(43);
-            int num = sqlSession.update("goods.update",goods);
+            int num = sqlSession.update("goods.update", goods);
             System.out.println(num);
             sqlSession.commit();
         } catch (Exception e) {
@@ -187,13 +187,33 @@ public class MyBatisTest {
         SqlSession sqlSession = null;
         try {
             sqlSession = MyBatisUtils.openSession();
-            int num = sqlSession.delete("goods.delete",2676);
+            int num = sqlSession.delete("goods.delete", 2676);
             System.out.println(num);
             sqlSession.commit();
         } catch (Exception e) {
             if (sqlSession != null) {
                 sqlSession.rollback();
             }
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testSelectByTitle() {
+        //#{title}使用预编译 ,可以有效解决sql注入的问题
+        //${title}使用原文传值
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Map param = new HashMap();
+            param.put("title", "'测试商品'");
+            List<Goods> list = sqlSession.selectList("goods.selectByTitle", param);
+            for (Goods goods : list) {
+                System.out.println(goods.getTitle() + ":" + goods.getSubTitle());
+            }
+        } catch (Exception e) {
             throw e;
         } finally {
             MyBatisUtils.closeSession(sqlSession);
