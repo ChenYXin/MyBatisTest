@@ -139,7 +139,8 @@ public class MyBatisTest {
             goods.setIsFreeDelivery(1);
             goods.setCategoryId(43);
             //insert()方法返回值代表本次成功插入的记录总数
-            int num = sqlSession.insert("goods.insert", goods);
+//            int num = sqlSession.insert("goods.insert", goods);
+            int num = sqlSession.insert("goods.insert2", goods);
             sqlSession.commit();
             System.out.println(num);
             System.out.println(goods.getGoodsId());

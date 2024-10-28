@@ -45,7 +45,7 @@
         <result property="goods.discount" column="discount"/>
         <result property="goods.isFreeDelivery" column="is_free_delivery"/>
         <result property="goods.categoryId" column="category_id"/>
-<!--        <result property="categoryName" column="category_name"/>-->
+        <!--        <result property="categoryName" column="category_name"/>-->
 
         <result property="category.categoryId" column="category_id"/>
         <result property="category.categoryName" column="category_name"/>
@@ -68,5 +68,13 @@
         <selectKey resultType="Integer" keyProperty="goodsId" order="AFTER">
             select last_insert_id()
         </selectKey>
+    </insert>
+
+    <insert id="insert2" parameterType="com.imooc.mybatis.entity.Goods"
+            useGeneratedKeys="true"
+            keyProperty="goodsId"
+            keyColumn="goods_id">
+        insert into t_goods(title, sub_title, original_cost, current_price, discount, is_free_delivery, category_id)
+        values (#{title}, #{subTitle}, #{originalCost}, #{currentPrice}, #{discount}, #{isFreeDelivery}, #{categoryId})
     </insert>
 </mapper>
