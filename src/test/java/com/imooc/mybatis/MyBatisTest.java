@@ -2,6 +2,7 @@ package com.imooc.mybatis;
 
 import com.imooc.mybatis.dto.GoodsDTO;
 import com.imooc.mybatis.entity.Goods;
+import com.imooc.mybatis.entity.GoodsDetail;
 import com.imooc.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -239,4 +240,57 @@ public class MyBatisTest {
             MyBatisUtils.closeSession(sqlSession);
         }
     }
+
+    @Test
+    public void testLv1Cache() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            Goods goods1 = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode() + " : " + goods1.hashCode());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            sqlSession.commit();//commit 提交时对该namespace缓存强制清空
+            Goods goods1 = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode() + " : " + goods1.hashCode());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testLv2Cache() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+
 }
