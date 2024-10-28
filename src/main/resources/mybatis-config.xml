@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <!-- goods_id ==> goodsId 开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
     <!--设置默认指向的数据库-->
     <environments default="dev">
         <environment id="dev">
@@ -29,6 +33,8 @@
                 <property name="password" value="a12Cd3_45pUq6"/>
             </dataSource>
         </environment>
-
     </environments>
+    <mappers>
+        <mapper resource="mappers/goods.xml"/>
+    </mappers>
 </configuration>

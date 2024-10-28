@@ -1,5 +1,6 @@
 package com.imooc.mybatis;
 
+import com.imooc.mybatis.entity.Goods;
 import com.imooc.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
+import java.util.List;
 
 /**
  * Junit 对SqlSessionFactory 进行单元测试
@@ -51,6 +53,22 @@ public class MyBatisTest {
         } finally {
             MyBatisUtils.closeSession(sqlSession);
         }
+    }
 
+    @Test
+    public void testSelectAll() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+//            Connection conn=sqlSession.getConnection();
+            List<Goods> list = sqlSession.selectList("goods.selectAll");
+            for (Goods goods : list) {
+                System.out.println(goods.getTitle());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
     }
 }
