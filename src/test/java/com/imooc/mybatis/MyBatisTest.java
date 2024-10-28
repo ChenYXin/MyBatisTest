@@ -292,5 +292,19 @@ public class MyBatisTest {
         }
     }
 
-
+    @Test
+    public void testManyToOne() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            List<GoodsDetail> list = sqlSession.selectList("goodsDetail.selectManyToOne");
+            for (GoodsDetail goodsDetail : list) {
+                System.out.println(goodsDetail.getGdPicUrl() + ":" + goodsDetail.getGoods().getTitle());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
 }
