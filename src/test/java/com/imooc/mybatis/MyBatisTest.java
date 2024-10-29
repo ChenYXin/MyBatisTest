@@ -15,9 +15,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Junit 对SqlSessionFactory 进行单元测试
@@ -329,6 +327,63 @@ public class MyBatisTest {
             }
             System.out.println();
         } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testBatchInsert() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            long st = new Date().getTime();
+            sqlSession = MyBatisUtils.openSession();
+            List list = new ArrayList();
+            for (int i = 0; i < 10000; i++) {
+                Goods goods = new Goods();
+                goods.setGoodsId(i);
+                goods.setTitle("测试商品");
+                goods.setSubTitle("测试子标题");
+                goods.setOriginalCost(200f);
+                goods.setCurrentPrice(100f);
+                goods.setDiscount(0.5f);
+                goods.setIsFreeDelivery(1);
+                goods.setCategoryId(43);
+                list.add(goods);
+            }
+            sqlSession.insert("goods.batchInsert", list);
+            sqlSession.commit();
+            long et = new Date().getTime();
+            System.out.println("执行时间：" + (et - st) + "毫秒");
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                sqlSession.rollback();
+            }
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testBatchDelete() throws Exception {
+        SqlSession sqlSession = null;
+        try {
+            long st = new Date().getTime();
+            sqlSession = MyBatisUtils.openSession();
+            List list = new ArrayList();
+            list.add(1920);
+            list.add(1921);
+            list.add(1922);
+            sqlSession.delete("goods.batchDelete", list);
+            sqlSession.commit();//提交事务数据
+            long et = new Date().getTime();
+            System.out.println("执行时间：" + (et - st) + "毫秒");
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                sqlSession.rollback();
+            }
             throw e;
         } finally {
             MyBatisUtils.closeSession(sqlSession);
