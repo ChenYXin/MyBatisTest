@@ -7,6 +7,15 @@
         <!-- goods_id ==> goodsId 开启驼峰命名-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+    <!--启用PageHelper分页插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--设置数据库类型-->
+            <property name="helperDialect" value="mysql"/>
+            <!--分页合理化-->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
     <!--设置默认指向的数据库-->
     <environments default="dev">
         <environment id="dev">
