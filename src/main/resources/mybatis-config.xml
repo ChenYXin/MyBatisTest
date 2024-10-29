@@ -22,12 +22,16 @@
             <!--采用JDBC方式对数据库事务进行Commit/Rollback-->
             <transactionManager type="JDBC"/>
             <!--采用连接池方式管理数据库连接-->
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url"
+            <!--<dataSource type="POOLED">-->
+            <dataSource type="com.imooc.mybatis.datasource.C3P0DataSourceFactory">
+                <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="jdbcUrl"
                           value="jdbc:mysql://localhost:3306/babytun?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai"/>
-                <property name="username" value="root"/>
+                <property name="user" value="root"/>
                 <property name="password" value="a12Cd3_45pUq6"/>
+                <property name="initialPoolSize" value="5"/>
+                <property name="maxPoolSize" value="20"/>
+                <property name="minPoolSize" value="5"/>
             </dataSource>
         </environment>
         <environment id="prd">
